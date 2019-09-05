@@ -1,0 +1,33 @@
+ul{
+  list-style: none;
+  margin: 0%;
+  padding: 0%;
+  display :flex;
+}
+
+
+a{
+  text-decoration: none;
+  color: white;
+}
+
+.spacer{
+  flex : 1 1 auto;
+}
+
+.btn-logout{
+  padding-top: 15px;
+  padding-bottom: 15px;
+  color: #9d9d9d;
+  background: transparent;
+  border: none;
+}
+.btn-logout:hover {
+  color: white;
+}
+
+.btn-logout.focus, .btn-logout:focus {
+  outline: 0;
+  box-shadow: none!important;
+  color:  white;
+}
