@@ -44,6 +44,9 @@
 -->
     </div>
     <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+     <mat-error *ngIf="notsame">
+        Passwords do not match
+    </mat-error>
 </form>
 </div>
 
