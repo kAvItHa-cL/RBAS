@@ -39,7 +39,7 @@ export class SignupComponent implements OnInit {
     if (this.f.adminCheck.value) {
       this.role = [1];
     }
-    console.log('Role for new User ', this.role);
+   // console.log('Role for new User ', this.role);
     this.authService.createUser(this.f.username.value, this.f.email.value, this.f.password.value, this.role);
   }
 

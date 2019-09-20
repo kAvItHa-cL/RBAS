@@ -8,6 +8,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from './auth/auth.guard';
 import { MenuComponent } from './menu/menu.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
+import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
 
 
 const routes: Routes = [
@@ -17,10 +19,9 @@ const routes: Routes = [
   { path: '', component: LoginComponent },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
-  { path: 'adminpanel', component: AdminPanelComponent, canActivate: [AuthGuard], data: { roles: ['Admin'] }}
-
-
-
+  { path: 'adminpanel', component: AdminPanelComponent, canActivate: [AuthGuard], data: { roles: ['Admin'] }},
+  { path : 'forgotpassword', component : ForgotPasswordComponent},
+  {path : 'resetpassword', component: ResetPasswordComponent}
   // {
   //   path: 'main', component: MainComponent,
   //   children: [

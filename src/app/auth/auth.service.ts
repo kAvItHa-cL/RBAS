@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
-
+import { Config } from '../config/config';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -34,10 +34,10 @@ export class AuthService {
     return this.userId;
   }
 
-  createUser(username: string, email: string, password: string, role: number []) {
+  createUser(username: string, email: string, password: string, role: number[]) {
     const authData: AuthData = { username, email, password, role };
-    console.log('Auth Data ', authData);
-    this.http.post('http://localhost:3000/api/user/signup', authData)
+    // console.log('Auth Data ', authData);
+    this.http.post(Config.API_ENDPOINT + 'user/signup', authData)
       .subscribe(response => {
         this.router.navigate(['/login']);
       }, err => {
@@ -49,8 +49,8 @@ export class AuthService {
   loginUser(email: string, password: string) {
 
     const authData: AuthData = { email, password };
-    console.log(authData);
-    this.http.post<{ token: string, expiresIn: number, userId: string, roles: any[] }>('http://localhost:3000/api/user/login', authData)
+    // console.log(authData);
+    this.http.post<{ token: string, expiresIn: number, userId: string, roles: any[] }>(Config.API_ENDPOINT + 'user/login', authData)
       .subscribe(response => {
         console.log('response ', response.roles);
         const token = response.token;
@@ -76,7 +76,7 @@ export class AuthService {
 
 
   private setAuthTimer(duration: number) {
-    console.log('Setting Timer : ' + duration);
+    // console.log('Setting Timer : ' + duration);
     this.tokenTimer = setTimeout(() => {
       this.logoutUser();
     }, duration * 1000);
@@ -115,7 +115,7 @@ export class AuthService {
     localStorage.setItem('expiration', expirationDate.toString());
     localStorage.setItem('userId', userId);
     localStorage.setItem('roles', JSON.stringify(roles));
-    console.log('local storage roles ', roles);
+    // ('local storage roles ', roles);
 
   }
 
@@ -134,9 +134,9 @@ export class AuthService {
   }
 
   rolesMatch(allowedRoles): boolean {
-    console.log('Allowed ROle', allowedRoles);
+    // console.log('Allowed ROle', allowedRoles);
     let isMatch = false;
-    console.log('Roles in localstorage Get', localStorage.getItem('roles'));
+    // console.log('Roles in localstorage Get', localStorage.getItem('roles'));
     if (localStorage.getItem('roles')) {
       const userRoles: string[] = JSON.parse(localStorage.getItem('roles'));
       allowedRoles.forEach(element => {
@@ -149,6 +149,20 @@ export class AuthService {
     return isMatch;
   }
 
+  updatePassword(data) {
+    // console.log(data);
+    this.http.post('http://localhost:3000/api/mailer/updatepassword', data)
+      .subscribe(response => {
+        console.log('Response', response);
+      });
+
+  }
+
+  verifyToken(paramsdata) {
+    // console.log('paramsdata', paramsdata);
+    return this.http.post('http://localhost:3000/api/mailer/verifytoken', paramsdata);
+
+  }
 
   private clearAuthData() {
     localStorage.removeItem('token');
