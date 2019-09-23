@@ -26,13 +26,14 @@ export class ResetPasswordComponent implements OnInit {
   ngOnInit() {
     this.activatedRoute.queryParams
       .subscribe(params => {
+        console.log('Params', params);
         this.params = params;
         if (!params.token) {
           this.router.navigate(['/login']);
         } else {
           this.authService.verifyToken(params)
             .subscribe(response => {
-            //  console.log('Response', response);
+              //  console.log('Response', response);
               if (response['code'] === 500) {
                 this.router.navigate(['/login']);
               }

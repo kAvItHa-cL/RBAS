@@ -30,9 +30,17 @@ export class LoginComponent implements OnInit {
     // stop here if form is invalid
     if (this.
       loginForm.invalid) {
-           return;
+      return;
     }
     this.authService.loginUser(this.f.email.value, this.f.password.value);
+  }
+
+  fblogin() {
+
+  }
+
+  googlelogin() {
+
   }
 
 }

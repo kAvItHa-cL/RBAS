@@ -15,17 +15,12 @@ router.post('/resetlink', (req, res, next) => {
         message: 'No user found with that email address '
       });
     }
-
+console.log(user._id,"userid")
     ResetPassword
-      .findOne({
-        where: { userId: user._id, status: 0 },
-      }).then(function (resetPassword) {
+      .findOne({userId: user._id}).then(function (resetPassword) {
+        console.log(resetPassword ,"reset Password previous")
         if (resetPassword)
-          resetPassword.destroy({
-            where: {
-              id: resetPassword.id
-            }
-          })
+          resetPassword.remove();
 
         token = crypto.randomBytes(32).toString('hex')//creating the token to be sent to the forgot password form (react)
         //console.log("Token : ", token)
@@ -78,17 +73,6 @@ router.post('/resetlink', (req, res, next) => {
   });
 });
 
-// router.get('/reset/:token', function (req, res) {
-//   console.log("Inside Reset Token")
-//   User.findOne({ resetPasswordToken: req.params.token, expire: Date.now() }, function (err, user) {
-//     if (!user) {
-//       req.flash('error', 'Password reset token is invalid or has expired.');
-//       return res.redirect('/forgot');
-//     }
-//     res.render('reset', { token: req.params.token });
-//     res.send().json({message :"something happend"})
-//   });
-// });
 
 router.post('/verifytoken', (req, res, next) => {
   console.log("Hi");
@@ -96,7 +80,7 @@ router.post('/verifytoken', (req, res, next) => {
   ResetPassword.findOne({ userId: req.body.userid, token: req.body.token }).then(
     data => {
       if (!data || data.expire < Date.now()) {
-        if (data) data.remove();
+        //if (data) data.remove();
         res.json({ code: 500, message: "Session Expired" })
 
       }
@@ -111,6 +95,7 @@ router.post('/updatepassword', (req, res, next) => {
       console.log(Date.now())
       if (!result || result.expire < Date.now()) {
         console.log("Expired")
+        //if(result) result.remove();
       }
       else {
         bcrypt.hash(req.body.password, 10).then(hash => {
@@ -120,6 +105,7 @@ router.post('/updatepassword', (req, res, next) => {
           User.findOneAndUpdate({ _id: req.body.param.userid }, { password: password }).then(user => {
             // user.password = req.body.password;
             console.log("user", user)
+            //result.remove();
           })
         })
       }

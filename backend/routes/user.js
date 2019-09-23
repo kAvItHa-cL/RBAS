@@ -52,10 +52,9 @@ router.post('/signup', (req, res, next) => {
       //});
     })
       .catch(err => {
-        res.status(404).json({
-          message: 'Invalid Authentication Credentials',
-          error: err
-        })
+        res.status(500).json({
+          message: 'User Already Exists',
+                  })
       })
   })
 
