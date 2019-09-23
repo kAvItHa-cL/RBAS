@@ -16,8 +16,6 @@ mongoose.connect(Config.mongoDBURL, { useNewUrlParser: true })
         Roles.insertMany(arr).then(() => { console.log("Roles Added") })
       }
   })
-}).catch(err => {
-  console.log("Error Failed", err);
 })
   .catch((err) => {
     console.log("Connection Failed : ",err);

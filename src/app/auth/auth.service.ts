@@ -37,12 +37,8 @@ export class AuthService {
   createUser(username: string, email: string, password: string, role: number[]) {
     const authData: AuthData = { username, email, password, role };
     // console.log('Auth Data ', authData);
-    this.http.post(Config.API_ENDPOINT + 'user/signup', authData)
-      .subscribe(response => {
-        this.router.navigate(['/login']);
-      }, err => {
-        this.authStatusListenenr.next(false);
-      });
+    return this.http.post(Config.API_ENDPOINT + 'user/signup', authData)
+
   }
 
 

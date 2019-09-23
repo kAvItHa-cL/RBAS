@@ -1,6 +1,8 @@
 import { AuthService } from 'src/app/auth/auth.service';
 import { Component, OnInit, ɵConsole } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { ToasterService } from 'src/app/services/toaster.service';
 
 @Component({
   selector: 'app-signup',
@@ -12,7 +14,12 @@ export class SignupComponent implements OnInit {
   submitted = false;
   role = [2];
   notsame = false;
-  constructor(private formBuilder: FormBuilder, private authService: AuthService) {
+  showMsg: boolean;
+  constructor(
+    private formBuilder: FormBuilder,
+    private authService: AuthService,
+    private router: Router,
+    private toaster: ToasterService) {
   }
 
   ngOnInit() {
@@ -54,7 +61,14 @@ export class SignupComponent implements OnInit {
     }
     const value = this.checkPasswords(this.f.password.value, this.f.confirmpassword.value);
     if (!value) {
-      this.authService.createUser(this.f.username.value, this.f.email.value, this.f.password.value, this.role);
+      this.authService.createUser(this.f.username.value, this.f.email.value, this.f.password.value, this.role)
+        .subscribe(response => {
+          this.router.navigate(['/login']);
+          this.toaster.success('', 'Registration successful..!');
+          this.showMsg = true;
+        }, err => {
+          // this.authStatusListenenr.next(false);
+        });
     } else { this.notsame = true; }
   }
 
